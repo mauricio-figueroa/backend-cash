@@ -1,6 +1,6 @@
 package com.cash.examen.dao;
 
-import com.cash.examen.domain.Client;
+import com.cash.examen.domain.User;
 import com.google.common.collect.ImmutableList;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Transactional
 @Repository
-public class ClientDAOImpl implements ClientDAO {
+public class UserDAOImpl implements UserDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -20,7 +20,7 @@ public class ClientDAOImpl implements ClientDAO {
 
     //TODO revisar esta query, tratar de hacer con criteria
     @Override
-    public List<Client> getAllClients() {
+    public List<User> getAllUsers() {
       /*  entityManager.getCriteriaBuilder()
         return getAll(Client.class);
         */
@@ -28,27 +28,27 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
     @Override
-    public Client getClient(int clientId) {
-        return entityManager.find(Client.class, clientId);
+    public User getUser(int userId) {
+        return entityManager.find(User.class, userId);
     }
 
     @Override
-    public void addClient(Client client) {
+    public void addUser(User userId) {
 
     }
 
     @Override
-    public void updateClient(Client client) {
-        Client clientDb = getClient(client.getId());
-        clientDb.setEmail(clientDb.getEmail());
-        clientDb.setFirst_name(clientDb.getFirst_name());
-        clientDb.setLast_name(clientDb.getLast_name());
+    public void updateUser(User userId) {
+        User userToUpdate = getUser(userId.getId());
+        userToUpdate.setEmail(userToUpdate.getEmail());
+        userToUpdate.setFirst_name(userToUpdate.getFirst_name());
+        userToUpdate.setLast_name(userToUpdate.getLast_name());
         entityManager.flush();
     }
 
     @Override
-    public void deleteClient(Client client) {
-        entityManager.remove(client);
+    public void deleteUser(User userId) {
+        entityManager.remove(userId);
     }
 
 

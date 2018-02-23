@@ -16,8 +16,8 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Entity
-@Table(name = "articles")
-public class Client {
+@Table(name = "user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
