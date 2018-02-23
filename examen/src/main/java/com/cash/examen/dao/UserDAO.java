@@ -9,7 +9,7 @@ public interface UserDAO {
 
     List<User> getAllUsers();
 
-    User getUser(int user);
+    User getUser(long user);
 
     void addUser(User user);
 
