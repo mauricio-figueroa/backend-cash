@@ -11,7 +11,7 @@ public interface UserDAO {
 
     User getUser(long user);
 
-    void addUser(User user);
+    void save(User user);
 
     void updateUser(User user);
 

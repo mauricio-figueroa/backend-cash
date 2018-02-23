@@ -33,13 +33,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void addUser(User userId) {
-
+    public void save(User user) {
+     entityManager.persist(user);
     }
 
     @Override
-    public void updateUser(User userId) {
-        User userToUpdate = getUser(userId.getId());
+    public void updateUser(User user) {
+        User userToUpdate = getUser(user.getId());
         userToUpdate.setEmail(userToUpdate.getEmail());
         userToUpdate.setFirst_name(userToUpdate.getFirst_name());
         userToUpdate.setLast_name(userToUpdate.getLast_name());
