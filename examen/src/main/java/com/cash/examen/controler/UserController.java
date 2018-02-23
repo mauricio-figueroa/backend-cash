@@ -34,8 +34,8 @@ public class UserController {
 
 
     //todo object no
-    @RequestMapping(value="users/{id}/", method=RequestMethod.GET)
-    public Object adminStudent(@PathVariable Long id) {
+    @RequestMapping(value="users/{id}", method=RequestMethod.GET)
+    public Object adminStudent(@PathVariable Integer id) {
 
         if(ObjectUtils.allNotNull(id)){
             log.info("trying to find User info for id {}",id);

@@ -19,10 +19,18 @@ public class InitService {
 
     public void initService(){
         Loan loanUser00= Loan.builder().total(new BigDecimal("42.40")).build();
+        Loan loanUser01= Loan.builder().total(new BigDecimal("33.40")).build();
+        Loan loanUser02= Loan.builder().total(new BigDecimal("21.40")).build();
+        Loan loanUser03= Loan.builder().total(new BigDecimal("890.40")).build();
+        Loan loanUser04= Loan.builder().total(new BigDecimal("43.40")).build();
+        Loan loanUser05= Loan.builder().total(new BigDecimal("25000.40")).build();
 
-        User user0 = User.builder().first_name("Mauricio").last_name("Figueroa").email("figueroa.a.mj@gmail.com").loans(ImmutableList.of(loanUser00)).build();
-        User user1 = User.builder().first_name("Melania").last_name("Miranda").email("melania.smc@gmail.com").build();
-        User user2 = User.builder().first_name("Victor").last_name("Betran").email("victor.betran@gmail.com").build();
+        User user0 = User.builder().first_name("Mauricio").last_name("Figueroa").email("figueroa.a.mj@gmail.com")
+                .loans(ImmutableList.of(loanUser00,loanUser01,loanUser02)).build();
+        User user1 = User.builder().first_name("Melania").last_name("Miranda").email("melania.smc@gmail.com")
+                .loans(ImmutableList.of(loanUser03,loanUser04)).build();
+        User user2 = User.builder().first_name("Victor").last_name("Betran").email("victor.betran@gmail.com")
+                .loans(ImmutableList.of(loanUser05)).build();
 
         userDAO.save(user0);
         userDAO.save(user1);

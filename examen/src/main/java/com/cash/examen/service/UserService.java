@@ -13,7 +13,7 @@ public class UserService {
     @Autowired
     private UserDAOImpl userDAO;
 
-    public User findUser(long id) {
+    public User findUser(Integer id) {
         try {
             return userDAO.getUser(id);
         } catch (Exception e) {

@@ -34,14 +34,14 @@ public class User {
     @Column(name="email")
     private String email;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private List<Loan> loans;
-
     @Column(name="first_name")
     private String first_name;
 
     @Column(name="last_name")
     private String last_name;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<Loan> loans;
 
 }
