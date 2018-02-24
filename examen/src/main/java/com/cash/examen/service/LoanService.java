@@ -19,4 +19,9 @@ public class LoanService {
         List<Loan> loans = loansDAO.getLoans(limit, offset);
         return  LoansBuilder.buildLoan(loans,limit,offset,loansDAO.getTotal(limit,offset));
     }
+
+    public LoansResponseDTO getLoansFilteredByUserId(Integer limit, Integer offset, Integer userId) {
+        List<Loan> loans = loansDAO.getLoansFilteredByUserId(limit, offset,userId);
+        return  LoansBuilder.buildLoan(loans,limit,offset,loansDAO.getTotal(limit,offset));
+    }
 }

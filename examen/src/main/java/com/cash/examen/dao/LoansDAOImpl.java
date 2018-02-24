@@ -28,7 +28,14 @@ public class LoansDAOImpl {
 
     public Integer getTotal(Integer limit, Integer offset){
         Query query = entityManager.createQuery("select count(*) FROM loan");
-        return new Integer(query.getFirstResult());
+        return new Integer(String.valueOf(query.getSingleResult()));
     }
 
+    public List<Loan> getLoansFilteredByUserId(Integer limit, Integer offset, Integer userId) {
+        Query query = entityManager.createQuery("FROM loan where user_id=:userId")
+                .setParameter("userId",userId)
+                .setMaxResults(limit)
+                .setFirstResult(offset);
+        return  query.getResultList();
+    }
 }
