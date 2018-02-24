@@ -29,5 +29,7 @@ public class Loan {
     @Column(name = "total")
     private BigDecimal total;
 
+    private int user_id;
+
 
 }
