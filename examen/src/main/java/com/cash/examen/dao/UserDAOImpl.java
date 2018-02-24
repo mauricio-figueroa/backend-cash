@@ -3,6 +3,8 @@ package com.cash.examen.dao;
 
 import com.cash.examen.domain.User;
 import com.google.common.collect.ImmutableList;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,7 +22,6 @@ public class UserDAOImpl implements UserDAO {
 
     @PersistenceContext
     private EntityManager entityManager;
-
 
     //TODO revisar esta query, tratar de hacer con criteria
     @Override
@@ -58,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean emailAlreadyRegistred(String email) {
-        Query query = entityManager.createQuery("FROM users WHERE email=:email ")
+        Query query = entityManager.createQuery("select first_name FROM user WHERE email=:email ")
                 .setParameter("email", email);
 
         return !query.getResultList().isEmpty();

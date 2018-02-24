@@ -17,8 +17,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@Entity
-@Table(name = "loan")
+@Entity(name = "loan")
+@Table
 public class Loan {
 
     @Id

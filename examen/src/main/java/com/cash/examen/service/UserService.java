@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.jws.soap.SOAPBinding;
+
 @Component
 @Slf4j
 public class UserService {
@@ -30,5 +32,10 @@ public class UserService {
             throw new UserAlreadyRegisteredException(EMAIL_ALREADY_REGISTERED);
         }
         userDAO.save(newUser);
+    }
+
+    public void deleteUser(Integer id) {
+        User user = userDAO.getUser(id);
+        userDAO.deleteUser(user);
     }
 }

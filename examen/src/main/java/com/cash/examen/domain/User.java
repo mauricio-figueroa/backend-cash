@@ -23,8 +23,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@Entity
-@Table(name = "user")
+@Entity(name = "user")
+@Table
 public class User {
 
     @Id

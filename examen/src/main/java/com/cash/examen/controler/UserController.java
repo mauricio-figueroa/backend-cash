@@ -8,11 +8,11 @@ import com.cash.examen.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,8 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class UserController {
 
-    private static final String USER_HAS_BEEN_CREATED = "The user has been created";
+    private static final String USER_CREATED = "The user has been created";
     private static final String SERVER_CONFLICT = "Conflict on the server, the best engineers are running to fix this";
+    private static final String ID_CAN_NOT_BE_NULL = "Id can not be null";
+    private static final String PLEASE_SPECIFY_USER_ID = "Please specify the user id";
+    private static final String USER_NOT_EXIST = "User id not exist";
+    private static final String USER_DELETED = "User has been deleted";
 
     @Autowired
     private UserService userService;
@@ -46,36 +50,66 @@ public class UserController {
         initService.initService();
     }
 
-
-    //todo object no
-    @RequestMapping(value = "users/{id}", method = RequestMethod.GET)
-    public Object getUserById(@PathVariable Integer id) {
-
-        if (ObjectUtils.allNotNull(id)) {
-            log.info("trying to find User info for id {}", id);
-            return userService.findUser(id);
-        }
-
-        log.info("id can not be null");
-
-        return HttpStatus.CONFLICT;
+    @RequestMapping(value = "users/", method = RequestMethod.GET)
+    public ResponseEntity getUsers (){
+        return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.BAD_REQUEST).message(PLEASE_SPECIFY_USER_ID).build(), HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = ("/usersss"), method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity login(HttpEntity<String> httpEntity) {
+    @RequestMapping(value = "users/{id}", method = RequestMethod.GET)
+    public ResponseEntity getUserById(@PathVariable Integer id) {
+
+        if (!ObjectUtils.allNotNull(id)) {
+            log.info("id can not be null");
+            return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.BAD_REQUEST).message(ID_CAN_NOT_BE_NULL).build(), HttpStatus.BAD_REQUEST);
+        }
+
+        if (!ObjectUtils.allNotNull(userService.findUser(id))) {
+            log.info("User with id {} not exist", id);
+            return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.CONFLICT).message(USER_NOT_EXIST).build(), HttpStatus.CONFLICT);
+        }
 
         try {
-            User newUser = gsonConverter.getGson().fromJson(httpEntity.getBody(), User.class);
-            userService.createUser(newUser);
-            return new ResponseEntity<>(DefaultResponseDTO.builder().status(HttpStatus.OK).message(USER_HAS_BEEN_CREATED).build(), HttpStatus.CREATED);
-        } catch (UserAlreadyRegisteredException e) {
-            log.error("Error", e);
-            return new ResponseEntity<>(DefaultResponseDTO.builder().status(HttpStatus.BAD_REQUEST).message(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
+            log.info("trying to find User info for id {}", id);
+            User user = userService.findUser(id);
+            return new ResponseEntity(user, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error", e);
-            return new ResponseEntity<>(DefaultResponseDTO.builder().status(HttpStatus.CONFLICT).message(SERVER_CONFLICT).build(), HttpStatus.CONFLICT);
+            return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.INTERNAL_SERVER_ERROR).message(SERVER_CONFLICT).build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+    @RequestMapping(value = "users/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteUser(@PathVariable Integer id) {
+
+        if (!ObjectUtils.allNotNull(id)) {
+            log.info("id can not be null");
+            return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.BAD_REQUEST).message(ID_CAN_NOT_BE_NULL).build(), HttpStatus.BAD_REQUEST);
         }
 
+        try {
+            log.info("trying to delete User info for id {}", id);
+            userService.deleteUser(id);
+            return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.OK).message(USER_DELETED).build(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.INTERNAL_SERVER_ERROR).message(SERVER_CONFLICT).build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+    @RequestMapping(value = ("/create-user"), method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public ResponseEntity createUser(@RequestBody User user) {
+
+        try {
+            userService.createUser(user);
+            return new ResponseEntity<>(DefaultResponseDTO.builder().status(HttpStatus.OK).message(USER_CREATED).build(), HttpStatus.CREATED);
+        } catch (UserAlreadyRegisteredException e) {
+            log.error("Error", e);
+            return new ResponseEntity<>(DefaultResponseDTO.builder().status(HttpStatus.CONFLICT).message(e.getMessage()).build(), HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            log.error("Error", e);
+            return new ResponseEntity<>(DefaultResponseDTO.builder().status(HttpStatus.INTERNAL_SERVER_ERROR).message(SERVER_CONFLICT).build(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
