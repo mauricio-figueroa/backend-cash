@@ -1,14 +1,18 @@
 package com.cash.examen.dao;
 
+
 import com.cash.examen.domain.User;
 import com.google.common.collect.ImmutableList;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
 import javax.transaction.Transactional;
 import java.util.List;
-
 
 @Transactional
 @Repository
@@ -24,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
       /*  entityManager.getCriteriaBuilder()
         return getAll(Client.class);
         */
-      return ImmutableList.of();
+        return ImmutableList.of();
     }
 
     @Override
@@ -34,7 +38,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void save(User user) {
-     entityManager.persist(user);
+        entityManager.persist(user);
     }
 
     @Override
@@ -49,6 +53,15 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void deleteUser(User user) {
         entityManager.remove(user);
+    }
+
+
+    @Override
+    public boolean emailAlreadyRegistred(String email) {
+        Query query = entityManager.createQuery("FROM users WHERE email=:email ")
+                .setParameter("email", email);
+
+        return !query.getResultList().isEmpty();
     }
 
 

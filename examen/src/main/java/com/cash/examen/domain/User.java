@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.util.List;
 
 @Data
@@ -31,7 +32,8 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @Column(name="email")
+
+    @Column(name="email", unique = true)
     private String email;
 
     @Column(name="first_name")
