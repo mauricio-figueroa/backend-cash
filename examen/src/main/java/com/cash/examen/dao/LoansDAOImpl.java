@@ -1,9 +1,6 @@
 package com.cash.examen.dao;
 
 import com.cash.examen.domain.Loan;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

@@ -2,19 +2,12 @@ package com.cash.examen.dao;
 
 
 import com.cash.examen.domain.User;
-import com.google.common.collect.ImmutableList;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Transactional
 @Repository
@@ -23,14 +16,6 @@ public class UserDAOImpl implements UserDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-    //TODO revisar esta query, tratar de hacer con criteria
-    @Override
-    public List<User> getAllUsers() {
-      /*  entityManager.getCriteriaBuilder()
-        return getAll(Client.class);
-        */
-        return ImmutableList.of();
-    }
 
     @Override
     public User getUser(Integer userId) {
