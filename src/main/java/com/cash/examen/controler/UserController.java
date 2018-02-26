@@ -5,6 +5,7 @@ import com.cash.examen.dto.DefaultResponseDTO;
 import com.cash.examen.exception.UserAlreadyRegisteredException;
 import com.cash.examen.service.InitService;
 import com.cash.examen.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
+@AllArgsConstructor
 public class UserController {
 
     private static final String USER_CREATED = "The user has been created";
@@ -34,10 +36,6 @@ public class UserController {
 
     @Autowired
     private InitService initService;
-
-    @Autowired
-    private GsonHttpMessageConverter gsonConverter;
-
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {

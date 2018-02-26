@@ -6,7 +6,7 @@ import com.cash.examen.dto.LoansResponseDTO;
 
 import java.util.List;
 
-public class LoansBuilder {
+public class LoansResponseBuilder {
 
 
     public static LoansResponseDTO buildLoan(List<Loan> loans, Integer limit, Integer offset, Integer total) {

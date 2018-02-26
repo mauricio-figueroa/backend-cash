@@ -17,11 +17,7 @@ public class UserService {
     private UserDAOImpl userDAO;
 
     public User findUser(Integer id) {
-        try {
             return userDAO.getUser(id);
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public void createUser(User newUser) throws UserAlreadyRegisteredException {

@@ -3,6 +3,7 @@ package com.cash.examen.controler;
 import com.cash.examen.dto.DefaultResponseDTO;
 import com.cash.examen.dto.LoansResponseDTO;
 import com.cash.examen.service.LoanService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @Slf4j
+@AllArgsConstructor
 public class LoanController {
 
     private final static String REQUIRED_FIELDS = "Limits and offset parameter required";
