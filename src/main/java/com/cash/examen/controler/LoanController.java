@@ -34,7 +34,7 @@ public class LoanController {
         if (!ObjectUtils.allNotNull(limit, offset)) {
             return new ResponseEntity(DefaultResponseDTO.builder().message(REQUIRED_FIELDS).status(HttpStatus.BAD_REQUEST).build(), HttpStatus.BAD_REQUEST);
         }
-        log.info("trying to get loans with limit {}, offset {}", limit, offset);
+        log.info("Trying to get loans with limit {}, offset {}", limit, offset);
 
         if (limit < 0 || offset < 0) {
             return new ResponseEntity(DefaultResponseDTO.builder().message(VALID_PARAMETERS).status(HttpStatus.BAD_REQUEST).build(), HttpStatus.BAD_REQUEST);
