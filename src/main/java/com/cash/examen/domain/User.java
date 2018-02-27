@@ -43,7 +43,7 @@ public class User {
     private String last_name;
 
     @OneToMany(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable = false , updatable = false, nullable = false)
     private List<Loan> loans;
 
 }
