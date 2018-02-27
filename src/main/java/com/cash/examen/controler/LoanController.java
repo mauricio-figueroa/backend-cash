@@ -32,13 +32,12 @@ public class LoanController {
     @ResponseBody
     public ResponseEntity getLoans(@RequestParam(value = "limit", required = false) String limitRaw, @RequestParam(value = "offset", required = false) String offsetRaw, @RequestParam(value = "user_id", required = false) String idRaw) {
 
-        if(!NumberUtils.isParsable(limitRaw) || !NumberUtils.isParsable(offsetRaw )|| !NumberUtils.isParsable(idRaw)){
+        if(!NumberUtils.isParsable(limitRaw) || !NumberUtils.isParsable(offsetRaw )){
             return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.BAD_REQUEST).message(VALID_PARAMETERS).build(),HttpStatus.BAD_REQUEST);
         }
 
         Integer limit= new Integer(limitRaw);
         Integer offset= new Integer(offsetRaw);
-        Integer userId= new Integer(idRaw);
 
         if (!ObjectUtils.allNotNull(limit, offsetRaw)) {
             return new ResponseEntity(DefaultResponseDTO.builder().message(REQUIRED_FIELDS).status(HttpStatus.BAD_REQUEST).build(), HttpStatus.BAD_REQUEST);
@@ -53,6 +52,7 @@ public class LoanController {
 
         try {
             if (userIsPresent) {
+                Integer userId= new Integer(idRaw);
                 LoansResponseDTO loans = this.loanService.getLoansFilteredByUserId(limit, offset, userId);
                 return new ResponseEntity(loans, HttpStatus.OK);
             } else {
