@@ -36,7 +36,7 @@ public class LoanControllerTest {
     public void get_loans_negative_limit() {
         DefaultResponseDTO expected = DefaultResponseDTO.builder().status(HttpStatus.BAD_REQUEST).message("Please insert positive Limits and offset").build();
 
-        ResponseEntity response = target.getLoans(-1, 1, 1);
+        ResponseEntity response = target.getLoans("-1", "1", "1");
         DefaultResponseDTO actual = (DefaultResponseDTO) response.getBody();
 
         Assert.assertEquals(expected, actual);
@@ -46,7 +46,7 @@ public class LoanControllerTest {
     public void get_loans_negative_offset() {
         DefaultResponseDTO expected = DefaultResponseDTO.builder().status(HttpStatus.BAD_REQUEST).message("Please insert positive Limits and offset").build();
 
-        ResponseEntity response = target.getLoans(1, -1, 1);
+        ResponseEntity response = target.getLoans("1", "-1", "1");
         DefaultResponseDTO actual = (DefaultResponseDTO) response.getBody();
 
         Assert.assertEquals(expected, actual);
@@ -56,7 +56,7 @@ public class LoanControllerTest {
     public void get_loans_negative_offset_and_limit() {
         DefaultResponseDTO expected = DefaultResponseDTO.builder().status(HttpStatus.BAD_REQUEST).message("Please insert positive Limits and offset").build();
 
-        ResponseEntity response = target.getLoans(-1, -1, 1);
+        ResponseEntity response = target.getLoans("-1", "-1", "1");
         DefaultResponseDTO actual = (DefaultResponseDTO) response.getBody();
 
         Assert.assertEquals(expected, actual);
@@ -78,7 +78,7 @@ public class LoanControllerTest {
         LoansResponseDTO expected = LoansResponseBuilder.buildLoan(ImmutableList.of(loan0, loan1, loan2, loan3), limit, offset, new Integer(12));
         when(loanService.getLoansFilteredByUserId(limit, offset, userId)).thenReturn(expected);
 
-        ResponseEntity response = target.getLoans(limit, offset, userId);
+        ResponseEntity response = target.getLoans(limit.toString(), offset.toString(), userId.toString());
         LoansResponseDTO actual = (LoansResponseDTO) response.getBody();
 
         Assert.assertEquals(actual, expected);

@@ -29,7 +29,7 @@ public class UserController {
     private static final String ID_CAN_NOT_BE_NULL = "Id can not be null";
     private static final String PLEASE_SPECIFY_USER_ID = "Please specify the user id";
     private static final String USER_NOT_EXIST = "User id not exist";
-    private static final String ID_IS_A_NUMBER = "ID is a number, please insert the correc value";
+    private static final String ID_IS_A_NUMBER = "User id is a number, please insert the correct value";
     private static final String USER_DELETED = "User has been deleted";
 
     @Autowired
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "users/", method = RequestMethod.GET)
-    public ResponseEntity getUsers (){
+    public ResponseEntity getUsers() {
         return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.BAD_REQUEST).message(PLEASE_SPECIFY_USER_ID).build(), HttpStatus.BAD_REQUEST);
     }
 
@@ -61,31 +61,20 @@ public class UserController {
             log.info("id can not be null");
             return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.BAD_REQUEST).message(ID_CAN_NOT_BE_NULL).build(), HttpStatus.BAD_REQUEST);
         }
-   /*
-        Integer id;
-        try{
-            id= Integer.valueOf(rawId);
-        }catch (Exception e){
-            log.error("Bad Id: {}", rawId);
-            return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.CONFLICT).message(USER_NOT_EXIST).build(), HttpStatus.CONFLICT);
 
-        }
-        */
-
-        if (!ObjectUtils.allNotNull(userService.findUser(id))) {
+        final User user = userService.findUser(id);
+        if (!ObjectUtils.allNotNull(user)) {
             log.info("User with id {} not exist", id);
             return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.CONFLICT).message(ID_IS_A_NUMBER).build(), HttpStatus.CONFLICT);
         }
 
         try {
             log.info("Trying to find User info for id {}", id);
-            User user = userService.findUser(id);
             return new ResponseEntity(user, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(DefaultResponseDTO.builder().status(HttpStatus.INTERNAL_SERVER_ERROR).message(SERVER_CONFLICT).build(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 
     @RequestMapping(value = "users/{id}", method = RequestMethod.DELETE)
