@@ -75,3 +75,15 @@ Base URL:[https://pacific-eyrie-20091.herokuapp.com/](https://pacific-eyrie-2009
   
 
 https://pacific-eyrie-20091.herokuapp.com/loans?limit=0&offset=0
+
+__________________________________________________________________________
+Para levantar la aplicacion localmente con una base vacia, descargar el proyecto, importarlo en un ide como maven project, tener instalado una base de datos mysql, cambiar los parametros de conexion a la base (en application.properties) y crear un esquema cash_backend (create schema cash_backend)
+
+spring.datasource.url=jdbc:mysql://localhost:3306/cash_backend  
+spring.datasource.username=root  
+spring.datasource.password=root
+
+
+Para cargarla con algunos datos iniciales para probar 
+
+https://pacific-eyrie-20091.herokuapp.com/init-exam
